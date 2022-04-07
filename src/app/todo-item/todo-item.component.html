@@ -1,0 +1,24 @@
+<div class="view">
+        <input  class="toggle"
+                type="checkbox"
+                name="done"
+                [ngModel]="data.isDone"
+                (ngModelChange)="miseAjour({isDone: $event})"
+        />
+        <label  class="texte"
+                (dblclick)="editing = true;">
+        {{data.label}}
+        </label>
+        <button class="destroy" 
+                (click)="remove.emit(data)">
+        </button>
+</div>
+<form (ngSubmit)="miseAjour({label: newTextInput.value})">
+        <input  #newTextInput
+                class="edit"
+                name="newTextInput"
+                [ngModel]="data.label"
+                (blur)="miseAjour({label: newTextInput.value})"
+        />
+</form>
+  

@@ -103,6 +103,47 @@
             ],
             "scripts": []
           }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "l3m-tpX-todolist-angular-y2022:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "l3m-tpX-todolist-angular-y2022:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "l3m-tpX-todolist-angular-y2022:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "l3m-tpX-todolist-angular-y2022:serve:production"
+            }
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "l3m-tpX-todolist-angular-y2022:build:production",
+            "firebaseProject": "proj-l3m-2021-2022",
+            "firebaseHostingSite": "proj-l3m-2021-2022"
+          }
         }
       }
     }

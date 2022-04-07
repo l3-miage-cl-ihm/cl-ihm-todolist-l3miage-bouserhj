@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 export interface TodoItem {
   readonly label: string;
@@ -13,15 +13,31 @@ export interface TodoList {
 }
 
 let idItem = 0;
+const savedListName = 'TODOLIST MIAGE';
+const defaultList: TodoList = {label: 'L3 MIAGE', items: []};
 
 @Injectable({
   providedIn: 'root'
 })
-export class TodolistService {
-  private subj = new BehaviorSubject<TodoList>({label: 'L3 MIAGE', items: [] });
+export class TodolistService /*implements OnDestroy*/{
+  //private abo: Subscription;
+  private subj = new BehaviorSubject<TodoList>(
+    //localStorage.getItem(savedListName) ? JSON.parse(localStorage.getItem(savedListName)): defaultList);
+    {label: 'L3 MIAGE', items: []});
   readonly observable = this.subj.asObservable();
 
+  // si personne ne s'abonne à un observable, le code qui est dedans n'est jamais exécuté.
+  // l'observable est froid --> utiliser share pour le rendre chaud
+
+
   constructor() {
+    /*this.abo = this.observable.subscribe( L => localStorage.setItem(savedListName, JSON.stringify(L)) )
+    // abo = abonnement
+*/
+  }
+
+  ngOnDestroy(){
+    //this.abo.unsubscribe();
   }
 
   create(...labels: readonly string[]): this {
@@ -60,4 +76,27 @@ export class TodolistService {
     return this;
   }
 
+  //convert JSON to do list into a string
+ //var laToDoListSauvegardee = JSON.stringify(TodolistService);
+ 
+ //save it with local storage
+ //window.localStorage.setItem('TodolistService', laToDoListSauvegardee);
+ 
+ //get to do list and convert it back JSON
+ //var recupDeLaToDoListSauvegardee = JSON.parse(window.localStorage.getItem());
+
+ /*
+ <script>
+        
+    // Convert the ToDoList object into JSON string and save it into storage
+    localStorage.setItem("toDo", JSON.stringify(obsL));
+        
+    // Retrieve the JSON string
+    var jsonString = localStorage.getItem("toDo");
+        
+    // Parse the JSON string back to TS object
+    obsL = JSON.parse(jsonString);
+</script>
+*/
 }
+ 

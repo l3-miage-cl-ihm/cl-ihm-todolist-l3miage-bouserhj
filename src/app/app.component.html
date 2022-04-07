@@ -1,2 +1,44 @@
-<h1>TP TodoList</h1>
+<app-todo-list></app-todo-list>
 
+<!--
+<section *ngIf="obsL | async as L">
+    <div *ngIf="auth.user | async as user; else showLogin">
+        <h1>Hello {{ user.displayName }}!</h1>
+        <button (click)="logout()">Logout</button>
+    </div>
+
+    <ng-template #showLogin>
+        <p>Please login.</p>
+        <button (click)="login()">Login with Google</button>
+    </ng-template>
+
+    <form (submit)="create(lab.value); lab.value =''" 
+          #ngForm="ngForm">
+        Tache: 
+        <input #lab
+               type="text" 
+               name="lab"
+               placeholder="What needs to be done?"
+        />
+    </form>
+
+    <ul>
+        <li *ngFor="let item of L.items; ngForTrackBy: trackById">
+            <input type="checkbox"
+                   [ngModel]="item.isDone"
+                   (ngModelChange)="update(item, {isDone: $event})"
+            />
+            <input type="text"
+                   [ngModel]="item.label"
+                   (ngModelChange)="update(item, {label: $event})"
+            />
+            <input type="button" 
+                   value="X"
+                   (click)="delete(item)"
+            />
+        </li>
+    </ul>
+</section>
+
+<pre>{{ obsL | async | json }}</pre>
+-->

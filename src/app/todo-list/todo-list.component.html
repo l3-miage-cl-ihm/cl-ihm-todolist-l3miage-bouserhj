@@ -1,0 +1,93 @@
+<div *ngIf="fireAuth.user | async as user; else showLogin">
+  <img src="{{ user.photoURL }}" 
+       width="65px"
+  />
+  <h2>{{ user.displayName }}</h2>
+  <input type="button"
+         (click)="logout()"
+         value="Logout"
+  />
+</div>
+
+<ng-template #showLogin>
+  <p>Please login.</p>
+  <input type="button" 
+         (click)="login()"
+         value="Login with Google"
+  />
+</ng-template>
+
+<section class="todoapp" 
+         *ngIf="todoListObs | async as TDL">
+    <header class="header">
+      <h1>{{TDL.label}}</h1>
+      <form (submit)="ajouter(lab.value); lab.value = '' ">
+        <input #lab
+               name="newTodoInput"
+               class="new-todo"
+               placeholder="Que faire? Tâches du jour..."
+               autofocus
+        />
+      </form>
+    </header>
+    <section class="main"  
+             *ngIf="TDL.items.length > 0">
+      <input class="toggle-all"
+             type="checkbox"
+             name="toggleAll"
+             [ngModel] = "TDL.allDone"
+      />
+      <label for="toggleAll"
+             (click)="updateAllDone(!TDL.allDone, TDL.items)">
+      Mark all as complete
+      </label>
+      <ul class="todo-list">
+        <li *ngFor="let item of TDL.displayedItems"
+            [class.editing]="ComponentItem.editing">
+          <app-todo-item #ComponentItem
+                         [data]="item"
+                         (update)="mettreAjour($event, item)"
+                         (remove)="supprimer(item)">
+          </app-todo-item>
+        </li>
+      </ul>
+    </section>
+    <footer class="footer"
+            *ngIf="TDL.items.length > 0">
+      <span class="todo-count"
+            *ngIf="TDL.remaining > 1">
+            <strong>{{TDL.remaining}}</strong> 
+      restantes
+      </span>
+      <span class="todo-count"
+            *ngIf="TDL.remaining === 1">
+            <strong>1</strong> 
+      restante
+      </span>
+      <ul class="filters">
+        <li>
+          <a class="filterAll"
+             [class.selected] = "TDL.filter === allItems"
+             (click) = "setFilter(allItems)"
+          >Tous</a>
+        </li>
+        <li>
+          <a class="filterActive"
+             [class.selected] = "TDL.filter === activeItems"
+             (click) = "setFilter(activeItems)"
+       >Actifs</a>
+        </li>
+        <li>
+          <a class="filterCompleted"
+             [class.selected] = "TDL.filter === completedItems"
+             (click) = "setFilter(completedItems)"
+          >Complétés</a>
+        </li>
+      </ul>
+      <button class="clear-completed"
+              *ngIf="TDL.remaining !== TDL.items.length"
+              (click)="supprimerAllDone(TDL.items)"
+      >Supprimer complétés</button>
+    </footer>
+  </section>
+  
