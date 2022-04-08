@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
 export interface TodoItem {
@@ -30,7 +31,7 @@ export class TodolistService /*implements OnDestroy*/{
   // l'observable est froid --> utiliser share pour le rendre chaud
 
 
-  constructor() {
+  constructor(private firestore: AngularFirestore) {
     /*this.abo = this.observable.subscribe( L => localStorage.setItem(savedListName, JSON.stringify(L)) )
     // abo = abonnement
 */
@@ -51,6 +52,7 @@ export class TodolistService /*implements OnDestroy*/{
           )
       ]
     } );
+    this.firestore.doc<TodoList>(`items/`+L.items).set(L, {merge: true});
     return this;
   }
 
@@ -60,6 +62,7 @@ export class TodolistService /*implements OnDestroy*/{
       ...L,
       items: L.items.filter(item => items.indexOf(item) === -1 )
     } );
+    this.firestore.doc<TodoList>(`items/`+L.items).set(L, {merge: true});
     return this;
   }
 
@@ -70,6 +73,7 @@ export class TodolistService /*implements OnDestroy*/{
         ...L,
         items: L.items.map( item => items.indexOf(item) >= 0 ? {...item, ...data} : item )
       } );
+      this.firestore.doc<TodoList>(`items/`+L.items).set(L, {merge: true});
     } else {
       this.delete(...items);
     }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TodoItem, TodoList, TodolistService } from './todolist.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import firebase from 'firebase/compat/app';
 
 @Component({

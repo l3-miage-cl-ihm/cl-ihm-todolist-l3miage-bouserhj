@@ -6,11 +6,12 @@ import { TodoItem, TodoList, TodolistService } from '../todolist.service';
 
 
 type FctFilter = (item: TodoItem) => boolean;
-interface TodoListPlus extends TodoList {
+interface TodoListPlusPlus extends TodoList {
   remaining: number;
   filter: FctFilter;
   displayedItems: readonly TodoItem[];
   allDone: boolean;
+  
 }
 
 @Component({
@@ -28,7 +29,7 @@ export class TodoListComponent implements OnInit {
 
   private filterBS = new BehaviorSubject<FctFilter>(this.allItems);
 
-  readonly todoListObs: Observable<TodoListPlus>;
+  readonly todoListObs: Observable<TodoListPlusPlus>;
 
   constructor(private todoListService:TodolistService, public fireAuth:AngularFireAuth) {
     this.todoListObs = combineLatest([todoListService.observable, this.filterBS]).pipe(
